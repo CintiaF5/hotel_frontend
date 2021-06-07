@@ -13,13 +13,14 @@ import Cabecalho from "../components/Cabecalho";
 import { BACKEND } from "../constants";
 
 import {
-  MdRestaurantMenu,
   MdWeb,
   MdSave,
   MdModeEdit,
   MdDelete,
   MdCancel,
 } from "react-icons/md";
+
+import { FaHotel } from "react-icons/fa";
 
 const Quartos = () => {
   const valorInicial = { numero: "", andar: "", tipo: "" };
@@ -93,7 +94,6 @@ const Quartos = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data)
            data.sucesso
             ? setAviso("Quarto salvo com sucesso")
             : setAviso(data.errors[0].message);
@@ -118,7 +118,7 @@ const Quartos = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        data.message ? setAviso(data.message) : setAviso("");
+        data.message ? setAviso(data.message) : setAviso(data.errors[0].message);
         setQuarto(valorInicial);
         obterQuartos();
       })
@@ -131,10 +131,10 @@ const Quartos = () => {
     <>
       <Container fluid className="p-0">
         <Cabecalho />
-        <Row className="bg-info text-light">
+        <Row className="bg-info text-light text-center">
           <Col>
             <h3>
-              <MdRestaurantMenu /> Quartos do BOOKHOTEL
+              <FaHotel /> Quartos do BOOKHOTEL
             </h3>
           </Col>
         </Row>
@@ -212,8 +212,7 @@ const Quartos = () => {
             {/* Listagem dos Quartos */}
             {carregandoQuartos && (
               <>
-                <Spinner animation="border" size="sm" />
-                <Spinner animation="grow" variant="info" />
+                <Spinner animation="border" size="sm" />               
                 <p>Aguarde, enquanto os quartos são carregados...</p>
               </>
             )}
@@ -293,15 +292,15 @@ const Quartos = () => {
           </Modal.Footer>
         </Modal>
 
-        <Toast
+        <Toast 
           onClose={() => setAviso("")}
           show={aviso.length > 0}
           animation={false}
           className="bg-success"
           style={{
-            position: "absolute",
-            top: 10,
-            right: 10,
+            position: "fixed",
+            top: 50,
+            right: 800,
           }}
         >
           <Toast.Header>Aviso</Toast.Header>
